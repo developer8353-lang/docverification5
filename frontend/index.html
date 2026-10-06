@@ -894,7 +894,7 @@
       <div class="nav-links" id="navLinks">
         <a onclick="showPage('home')"> Home </a>
 
-        <a onclick="showPage('verify')"> Verify Document </a>
+        <a onclick="openVerify()"> Verify Document </a>
 
         <a onclick="showPage('about')"> About </a>
 
@@ -956,9 +956,7 @@
       </div>
 
       <div class="nav-buttons">
-        <button class="nav-btn primary" onclick="showPage('verify')">
-          Verify
-        </button>
+        <button class="nav-btn primary" onclick="openVerify()">Verify</button>
       </div>
 
       <button class="menu-btn" onclick="toggleMenu()">☰</button>
@@ -984,7 +982,7 @@
           </p>
 
           <div class="hero-buttons">
-            <button class="btn btn-primary" onclick="showPage('verify')">
+            <button class="btn btn-primary" onclick="openVerify()">
               Verify Document
             </button>
 
@@ -1679,6 +1677,18 @@
           top: 0,
           behavior: "smooth",
         });
+      }
+
+      function openVerify() {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          toast("Please login first to verify a document", "error");
+          showPage("login");
+          return;
+        }
+
+        showPage("verify");
       }
 
       /* =====================================================
@@ -2755,6 +2765,14 @@ Verification ID: ${verificationId || documentId}`,
 ===================================================== */
 
       async function verifyDocument() {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          toast("Please login first to verify a document", "error");
+          showPage("login");
+          return;
+        }
+
         const input = document.getElementById("verificationInput");
 
         if (!input) {
@@ -2765,12 +2783,10 @@ Verification ID: ${verificationId || documentId}`,
 
         if (!verificationId) {
           toast("Please enter verification ID", "error");
-
           return;
         }
 
         const result = document.getElementById("verificationResult");
-
         const message = document.getElementById("verificationMessage");
 
         if (result) {
