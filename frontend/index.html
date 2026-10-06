@@ -1678,7 +1678,46 @@
           behavior: "smooth",
         });
       }
+      function clearVerificationResult() {
+        const result = document.getElementById("verificationResult");
+        const input = document.getElementById("verificationInput");
+        const preview = document.getElementById("publicDocumentPreview");
+        const message = document.getElementById("verificationMessage");
 
+        if (result) {
+          result.classList.remove("show");
+        }
+
+        if (input) {
+          input.value = "";
+        }
+
+        if (preview) {
+          preview.innerHTML = "";
+        }
+
+        if (message) {
+          message.textContent = "";
+        }
+
+        const ids = [
+          "resultVerificationId",
+          "resultDocumentType",
+          "resultOwnerName",
+          "resultOrganization",
+          "resultIssueDate",
+          "resultVerificationDate",
+          "resultStatus",
+        ];
+
+        ids.forEach((id) => {
+          const element = document.getElementById(id);
+
+          if (element) {
+            element.textContent = "-";
+          }
+        });
+      }
       function openVerify() {
         const token = localStorage.getItem("token");
 
@@ -1687,6 +1726,9 @@
           showPage("login");
           return;
         }
+
+        // Clear previous user's verification result
+        clearVerificationResult();
 
         showPage("verify");
       }
@@ -1901,6 +1943,9 @@
             localStorage.setItem("user", JSON.stringify(user));
           }
 
+          /* Clear previous user's verification result */
+          clearVerificationResult();
+
           updateNavigation();
 
           toast("Login successful", "success");
@@ -1926,6 +1971,9 @@
         localStorage.removeItem("user");
         localStorage.removeItem("lastVerificationId");
         localStorage.removeItem("lastAdminPage");
+
+        /* Clear previous user's verification result */
+        clearVerificationResult();
 
         updateNavigation();
 
@@ -2745,9 +2793,18 @@ Verification ID: ${verificationId || documentId}`,
       function verifyFromTable(verificationId) {
         if (!verificationId) {
           toast("Verification ID not found", "error");
-
           return;
         }
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          toast("Please login first to verify a document", "error");
+          showPage("login");
+          return;
+        }
+
+        clearVerificationResult();
 
         const input = document.getElementById("verificationInput");
 
