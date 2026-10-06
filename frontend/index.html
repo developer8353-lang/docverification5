@@ -1627,24 +1627,25 @@
        JAVASCRIPT
   ====================================================== -->
 
+    ```html
     <script>
       /* =====================================================
-     API CONFIGURATION
-  ===================================================== */
+   API CONFIGURATION
+===================================================== */
 
-      const API_BASE_URL = "http://localhost:8000/api";
-      const API_SERVER_URL = "http://localhost:8000";
+      const API_BASE_URL = "https://docverification5.onrender.com/api";
+      const API_SERVER_URL = "https://docverification5.onrender.com";
 
       /* =====================================================
-     GLOBAL DATA
-  ===================================================== */
+   GLOBAL DATA
+===================================================== */
 
       let allDocuments = [];
       let allUsers = [];
 
       /* =====================================================
-     MOBILE MENU
-  ===================================================== */
+   MOBILE MENU
+===================================================== */
 
       function toggleMenu() {
         const navLinks = document.getElementById("navLinks");
@@ -1655,8 +1656,8 @@
       }
 
       /* =====================================================
-     SHOW PAGE
-  ===================================================== */
+   SHOW PAGE
+===================================================== */
 
       function showPage(pageName) {
         document.querySelectorAll(".page").forEach((page) => {
@@ -1682,8 +1683,8 @@
       }
 
       /* =====================================================
-     ADMIN OPEN
-  ===================================================== */
+   ADMIN OPEN
+===================================================== */
 
       function openAdmin() {
         const token = localStorage.getItem("token");
@@ -1715,8 +1716,8 @@
       }
 
       /* =====================================================
-     ADMIN PAGE
-  ===================================================== */
+   ADMIN PAGE
+===================================================== */
 
       function adminPage(pageName, element) {
         document.querySelectorAll(".admin-section").forEach((section) => {
@@ -1747,31 +1748,31 @@
         }
 
         /* =====================================================
-       DOCUMENTS
-    ===================================================== */
+     DOCUMENTS
+  ===================================================== */
 
         if (pageName === "documents") {
           loadDocuments();
         }
 
         /* =====================================================
-       USERS
-    ===================================================== */
+     USERS
+  ===================================================== */
 
         if (pageName === "users") {
           loadUsers();
         }
 
         /* =====================================================
-       SAVE LAST ADMIN PAGE
-    ===================================================== */
+     SAVE LAST ADMIN PAGE
+  ===================================================== */
 
         localStorage.setItem("lastAdminPage", pageName);
       }
 
       /* =====================================================
-     TOAST
-  ===================================================== */
+   TOAST
+===================================================== */
 
       function toast(message, type = "success") {
         const toastElement = document.getElementById("toast");
@@ -1791,8 +1792,8 @@
       }
 
       /* =====================================================
-     REGISTER
-  ===================================================== */
+   REGISTER
+===================================================== */
 
       async function registerUser(event) {
         event.preventDefault();
@@ -1827,7 +1828,6 @@
 
           if (!response.ok || !data.success) {
             toast(data.message || "Registration failed", "error");
-
             return;
           }
 
@@ -1844,8 +1844,8 @@
       }
 
       /* =====================================================
-     LOGIN
-  ===================================================== */
+   LOGIN
+===================================================== */
 
       async function loginUser(event) {
         event.preventDefault();
@@ -1874,7 +1874,6 @@
 
           if (!response.ok || !data.success) {
             toast(data.message || "Login failed", "error");
-
             return;
           }
 
@@ -1884,7 +1883,6 @@
 
           if (!token) {
             toast("Token not received", "error");
-
             return;
           }
 
@@ -1911,16 +1909,13 @@
       }
 
       /* =====================================================
-     LOGOUT
-  ===================================================== */
+   LOGOUT
+===================================================== */
 
       function logout() {
         localStorage.removeItem("token");
-
         localStorage.removeItem("user");
-
         localStorage.removeItem("lastVerificationId");
-
         localStorage.removeItem("lastAdminPage");
 
         updateNavigation();
@@ -1931,8 +1926,8 @@
       }
 
       /* =====================================================
-     UPDATE NAVIGATION
-  ===================================================== */
+   UPDATE NAVIGATION
+===================================================== */
 
       function updateNavigation() {
         const token = localStorage.getItem("token");
@@ -2005,8 +2000,8 @@
       }
 
       /* =====================================================
-     SELECTED FILE PREVIEW
-  ===================================================== */
+   SELECTED FILE PREVIEW
+===================================================== */
 
       function previewSelectedFile() {
         const input = document.getElementById("documentFile");
@@ -2023,9 +2018,7 @@
 
         if (!file) {
           preview.style.display = "none";
-
           image.src = "";
-
           return;
         }
 
@@ -2047,8 +2040,8 @@
       }
 
       /* =====================================================
-     UPLOAD DOCUMENT
-  ===================================================== */
+   UPLOAD DOCUMENT
+===================================================== */
 
       async function uploadDocument(event) {
         event.preventDefault();
@@ -2224,8 +2217,8 @@
       }
 
       /* =====================================================
-     FILE URL
-  ===================================================== */
+   FILE URL
+===================================================== */
 
       function getDocumentFileUrl(doc) {
         if (!doc) {
@@ -2272,8 +2265,8 @@
       }
 
       /* =====================================================
-     GET FILE NAME
-  ===================================================== */
+   GET FILE NAME
+===================================================== */
 
       function getDocumentFileName(doc) {
         if (!doc) {
@@ -2294,8 +2287,8 @@
       }
 
       /* =====================================================
-     CHECK IMAGE
-  ===================================================== */
+   CHECK IMAGE
+===================================================== */
 
       function isImageFile(fileName) {
         const extension = String(fileName).split(".").pop().toLowerCase();
@@ -2304,8 +2297,8 @@
       }
 
       /* =====================================================
-     VIEW DOCUMENT
-  ===================================================== */
+   VIEW DOCUMENT
+===================================================== */
 
       function viewDocument(fileUrl) {
         if (!fileUrl) {
@@ -2318,8 +2311,8 @@
       }
 
       /* =====================================================
-     LOAD ALL DOCUMENTS
-  ===================================================== */
+   LOAD ALL DOCUMENTS
+===================================================== */
 
       async function loadDocuments() {
         const token = localStorage.getItem("token");
@@ -2362,8 +2355,8 @@
       }
 
       /* =====================================================
-     UPDATE COUNTERS
-  ===================================================== */
+   UPDATE COUNTERS
+===================================================== */
 
       function updateDocumentCounters() {
         const total = allDocuments.length;
@@ -2404,8 +2397,8 @@
       }
 
       /* =====================================================
-     ESCAPE HTML
-  ===================================================== */
+   ESCAPE HTML
+===================================================== */
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -2417,8 +2410,8 @@
       }
 
       /* =====================================================
-     RENDER DOCUMENTS
-  ===================================================== */
+   RENDER DOCUMENTS
+===================================================== */
 
       function renderDocuments(documents) {
         const body = document.getElementById("documentsBody");
@@ -2431,19 +2424,19 @@
 
         if (!documents || documents.length === 0) {
           body.innerHTML = `
-        <tr>
-          <td
-            colspan="7"
-            style="
-              text-align:center;
-              color:#8190a4;
-              padding:30px;
-            "
-          >
-            No documents found
-          </td>
-        </tr>
-      `;
+      <tr>
+        <td
+          colspan="7"
+          style="
+            text-align:center;
+            color:#8190a4;
+            padding:30px;
+          "
+        >
+          No documents found
+        </td>
+      </tr>
+    `;
 
           return;
         }
@@ -2473,58 +2466,58 @@
           }
 
           row.innerHTML = `
-          <td>
-            ${index + 1}
-          </td>
+        <td>
+          ${index + 1}
+        </td>
 
-          <td class="preview-cell"></td>
+        <td class="preview-cell"></td>
 
-          <td>
-            ${escapeHtml(verificationId || "-")}
-          </td>
+        <td>
+          ${escapeHtml(verificationId || "-")}
+        </td>
 
-          <td>
-            ${escapeHtml(doc.documentType || "-")}
-          </td>
+        <td>
+          ${escapeHtml(doc.documentType || "-")}
+        </td>
 
-          <td>
-            ${escapeHtml(doc.ownerName || doc.holderName || "-")}
-          </td>
+        <td>
+          ${escapeHtml(doc.ownerName || doc.holderName || "-")}
+        </td>
 
-          <td>
-            <span
-              class="badge ${statusClass}"
+        <td>
+          <span
+            class="badge ${statusClass}"
+          >
+            ${escapeHtml(status)}
+          </span>
+        </td>
+
+        <td>
+          <div
+            class="document-action-buttons"
+          >
+            ${
+              fileUrl
+                ? `
+                  <button
+                    type="button"
+                    class="view-document-btn"
+                  >
+                    View
+                  </button>
+                `
+                : ""
+            }
+
+            <button
+              type="button"
+              class="delete-document-btn"
             >
-              ${escapeHtml(status)}
-            </span>
-          </td>
-
-          <td>
-            <div
-              class="document-action-buttons"
-            >
-              ${
-                fileUrl
-                  ? `
-                    <button
-                      type="button"
-                      class="view-document-btn"
-                    >
-                      View
-                    </button>
-                  `
-                  : ""
-              }
-
-              <button
-                type="button"
-                class="delete-document-btn"
-              >
-                Delete
-              </button>
-            </div>
-          </td>
-        `;
+              Delete
+            </button>
+          </div>
+        </td>
+      `;
 
           body.appendChild(row);
 
@@ -2532,56 +2525,56 @@
 
           if (fileUrl && imageFile) {
             previewCell.innerHTML = `
-            <div
-              class="document-preview-box"
-            >
-              <img
-                src="${escapeHtml(fileUrl)}"
-                alt="Document"
-                loading="lazy"
-              />
-            </div>
-          `;
+          <div
+            class="document-preview-box"
+          >
+            <img
+              src="${escapeHtml(fileUrl)}"
+              alt="Document"
+              loading="lazy"
+            />
+          </div>
+        `;
 
             const image = previewCell.querySelector("img");
 
             image.addEventListener("error", function () {
               previewCell.innerHTML = `
-                <div
-                  class="document-preview-box"
+              <div
+                class="document-preview-box"
+              >
+                <span
+                  class="document-file-icon"
                 >
-                  <span
-                    class="document-file-icon"
-                  >
-                    📄
-                  </span>
-                </div>
-              `;
+                  📄
+                </span>
+              </div>
+            `;
             });
           } else if (fileUrl && fileName.toLowerCase().endsWith(".pdf")) {
             previewCell.innerHTML = `
-            <div
-              class="document-preview-box"
+          <div
+            class="document-preview-box"
+          >
+            <span
+              class="document-file-icon"
             >
-              <span
-                class="document-file-icon"
-              >
-                📕
-              </span>
-            </div>
-          `;
+              📕
+            </span>
+          </div>
+        `;
           } else {
             previewCell.innerHTML = `
-            <div
-              class="document-preview-box"
+          <div
+            class="document-preview-box"
+          >
+            <span
+              class="document-file-icon"
             >
-              <span
-                class="document-file-icon"
-              >
-                📄
-              </span>
-            </div>
-          `;
+              📄
+            </span>
+          </div>
+        `;
           }
 
           const viewButton = row.querySelector(".view-document-btn");
@@ -2594,15 +2587,17 @@
 
           const deleteButton = row.querySelector(".delete-document-btn");
 
-          deleteButton.addEventListener("click", function () {
-            deleteDocument(doc._id, verificationId);
-          });
+          if (deleteButton) {
+            deleteButton.addEventListener("click", function () {
+              deleteDocument(doc._id, verificationId);
+            });
+          }
         });
       }
 
       /* =====================================================
-     DELETE DOCUMENT
-  ===================================================== */
+   DELETE DOCUMENT
+===================================================== */
 
       async function deleteDocument(documentId, verificationId) {
         const token = localStorage.getItem("token");
@@ -2640,9 +2635,9 @@
         }
 
         const confirmDelete = confirm(
-          `Are you sure you want to delete this document?\n\nVerification ID: ${
-            verificationId || documentId
-          }`,
+          `Are you sure you want to delete this document?
+
+Verification ID: ${verificationId || documentId}`,
         );
 
         if (!confirmDelete) {
@@ -2690,8 +2685,8 @@
       }
 
       /* =====================================================
-     SEARCH DOCUMENTS
-  ===================================================== */
+   SEARCH DOCUMENTS
+===================================================== */
 
       function filterDocuments() {
         const searchInput = document.getElementById("documentSearch");
@@ -2735,8 +2730,8 @@
       }
 
       /* =====================================================
-     VERIFY FROM TABLE
-  ===================================================== */
+   VERIFY FROM TABLE
+===================================================== */
 
       function verifyFromTable(verificationId) {
         if (!verificationId) {
@@ -2745,7 +2740,11 @@
           return;
         }
 
-        document.getElementById("verificationInput").value = verificationId;
+        const input = document.getElementById("verificationInput");
+
+        if (input) {
+          input.value = verificationId;
+        }
 
         showPage("verify");
 
@@ -2753,8 +2752,8 @@
       }
 
       /* =====================================================
-     VERIFY DOCUMENT
-  ===================================================== */
+   VERIFY DOCUMENT
+===================================================== */
 
       async function verifyDocument() {
         const input = document.getElementById("verificationInput");
@@ -2841,55 +2840,55 @@
 
           if (preview && fileUrl && isImageFile(fileName)) {
             preview.innerHTML = `
-          <h3
-            style="
-              margin-bottom:12px;
-            "
-          >
-            Document
-          </h3>
+        <h3
+          style="
+            margin-bottom:12px;
+          "
+        >
+          Document
+        </h3>
 
-          <img
-            src="${escapeHtml(fileUrl)}"
-            alt="Verified Document"
-            onerror="
-              this.style.display='none'
-            "
-          />
-        `;
+        <img
+          src="${escapeHtml(fileUrl)}"
+          alt="Verified Document"
+          onerror="
+            this.style.display='none'
+          "
+        />
+      `;
           } else if (
             preview &&
             fileUrl &&
             fileName.toLowerCase().endsWith(".pdf")
           ) {
             preview.innerHTML = `
-          <h3
-            style="
-              margin-bottom:12px;
-            "
-          >
-            Document
-          </h3>
+        <h3
+          style="
+            margin-bottom:12px;
+          "
+        >
+          Document
+        </h3>
 
-          <iframe
-            src="${escapeHtml(fileUrl)}"
-            title="Verified Document"
-          >
-          </iframe>
-        `;
+        <iframe
+          src="${escapeHtml(fileUrl)}"
+          title="Verified Document"
+        >
+        </iframe>
+      `;
           } else if (preview) {
             preview.innerHTML = `
-          <div
-            style="
-              padding:20px;
-              background:#f8fafc;
-              border-radius:8px;
-              color:#64748b;
-            "
-          >
-            Document preview not available.
-          </div>
-        `;
+        <div
+          style="
+            padding:20px;
+            background:#f8fafc;
+            border-radius:8px;
+            color:#64748b;
+          "
+        >
+          Document preview not available.
+        </div>
+      `;
           }
 
           if (result) {
@@ -2903,8 +2902,8 @@
       }
 
       /* =====================================================
-     RECENT DOCUMENTS
-  ===================================================== */
+   RECENT DOCUMENTS
+===================================================== */
 
       function renderRecentDocuments(documents) {
         const body = document.getElementById("recentDocumentsBody");
@@ -2919,19 +2918,19 @@
 
         if (recent.length === 0) {
           body.innerHTML = `
-        <tr>
-          <td
-            colspan="6"
-            style="
-              text-align:center;
-              color:#8190a4;
-              padding:30px;
-            "
-          >
-            No documents uploaded yet
-          </td>
-        </tr>
-      `;
+      <tr>
+        <td
+          colspan="6"
+          style="
+            text-align:center;
+            color:#8190a4;
+            padding:30px;
+          "
+        >
+          No documents uploaded yet
+        </td>
+      </tr>
+    `;
 
           return;
         }
@@ -2955,53 +2954,55 @@
           }
 
           row.innerHTML = `
-          <td>
-            ${index + 1}
-          </td>
+        <td>
+          ${index + 1}
+        </td>
 
-          <td>
-            ${escapeHtml(verificationId || "-")}
-          </td>
+        <td>
+          ${escapeHtml(verificationId || "-")}
+        </td>
 
-          <td>
-            ${escapeHtml(doc.documentType || "-")}
-          </td>
+        <td>
+          ${escapeHtml(doc.documentType || "-")}
+        </td>
 
-          <td>
-            ${escapeHtml(doc.ownerName || doc.holderName || "-")}
-          </td>
+        <td>
+          ${escapeHtml(doc.ownerName || doc.holderName || "-")}
+        </td>
 
-          <td>
-            <span
-              class="badge ${statusClass}"
-            >
-              ${escapeHtml(status)}
-            </span>
-          </td>
+        <td>
+          <span
+            class="badge ${statusClass}"
+          >
+            ${escapeHtml(status)}
+          </span>
+        </td>
 
-          <td>
-            <span
-              class="action"
-              style="cursor:pointer;"
-            >
-              View
-            </span>
-          </td>
-        `;
+        <td>
+          <span
+            class="action"
+            style="cursor:pointer;"
+          >
+            View
+          </span>
+        </td>
+      `;
 
           body.appendChild(row);
 
           const view = row.querySelector(".action");
 
-          view.addEventListener("click", function () {
-            verifyFromTable(verificationId);
-          });
+          if (view) {
+            view.addEventListener("click", function () {
+              verifyFromTable(verificationId);
+            });
+          }
         });
       }
 
       /* =====================================================
-     LOAD ALL USERS
-  ===================================================== */
+   LOAD ALL USERS
+===================================================== */
 
       async function loadUsers() {
         const token = localStorage.getItem("token");
@@ -3062,8 +3063,8 @@
       }
 
       /* =====================================================
-     RENDER USERS
-     ===================================================== */
+   RENDER USERS
+===================================================== */
 
       function renderUsers(users) {
         const section = document.getElementById("adminUsers");
@@ -3073,12 +3074,6 @@
 
           return;
         }
-
-        /*
-      Tumhare existing HTML me usersBody nahi hai.
-      Isliye existing Users table-card ke andar
-      dynamically table create kar rahe hain.
-    */
 
         const tableCard = section.querySelector(".table-card");
 
@@ -3100,35 +3095,35 @@
 
         if (!users || users.length === 0) {
           tableContainer.innerHTML = `
-        <div
-          style="
-            padding:30px;
-            color:#64748b;
-            text-align:center;
-          "
-        >
-          No users found
-        </div>
-      `;
+      <div
+        style="
+          padding:30px;
+          color:#64748b;
+          text-align:center;
+        "
+      >
+        No users found
+      </div>
+    `;
 
           return;
         }
 
         tableContainer.innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>S.No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Registered Date</th>
-          </tr>
-        </thead>
+    <table>
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Registered Date</th>
+        </tr>
+      </thead>
 
-        <tbody id="usersBody"></tbody>
-      </table>
-    `;
+      <tbody id="usersBody"></tbody>
+    </table>
+  `;
 
         const body = document.getElementById("usersBody");
 
@@ -3139,53 +3134,43 @@
 
           let roleClass = "green";
 
-          /*
-          Existing CSS me blue badge nahi hai,
-          isliye admin ko bhi existing badge style
-          ke saath show karenge.
-        */
-
-          if (String(role).toLowerCase() === "admin") {
-            roleClass = "green";
-          }
-
           row.innerHTML = `
-          <td>
-            ${index + 1}
-          </td>
+        <td>
+          ${index + 1}
+        </td>
 
-          <td>
-            ${escapeHtml(user.name || "-")}
-          </td>
+        <td>
+          ${escapeHtml(user.name || "-")}
+        </td>
 
-          <td>
-            ${escapeHtml(user.email || "-")}
-          </td>
+        <td>
+          ${escapeHtml(user.email || "-")}
+        </td>
 
-          <td>
-            <span
-              class="badge ${roleClass}"
-            >
-              ${escapeHtml(role)}
-            </span>
-          </td>
+        <td>
+          <span
+            class="badge ${roleClass}"
+          >
+            ${escapeHtml(role)}
+          </span>
+        </td>
 
-          <td>
-            ${
-              user.createdAt
-                ? new Date(user.createdAt).toLocaleDateString("en-IN")
-                : "-"
-            }
-          </td>
-        `;
+        <td>
+          ${
+            user.createdAt
+              ? new Date(user.createdAt).toLocaleDateString("en-IN")
+              : "-"
+          }
+        </td>
+      `;
 
           body.appendChild(row);
         });
       }
 
       /* =====================================================
-     USER SEARCH
-  ===================================================== */
+   USER SEARCH
+===================================================== */
 
       function filterUsers() {
         const searchInput = document.getElementById("userSearch");
@@ -3220,8 +3205,8 @@
       }
 
       /* =====================================================
-     RESTORE LAST PAGE
-  ===================================================== */
+   RESTORE LAST PAGE
+===================================================== */
 
       function restoreLastPage() {
         const token = localStorage.getItem("token");
@@ -3257,8 +3242,8 @@
       }
 
       /* =====================================================
-     CLOSE MENU ON OUTSIDE CLICK
-  ===================================================== */
+   CLOSE MENU ON OUTSIDE CLICK
+===================================================== */
 
       document.addEventListener("click", function (event) {
         const nav = document.getElementById("navLinks");
@@ -3276,8 +3261,8 @@
       });
 
       /* =====================================================
-     PAGE LOAD
-  ===================================================== */
+   PAGE LOAD
+===================================================== */
 
       document.addEventListener("DOMContentLoaded", function () {
         const userSearch = document.getElementById("userSearch");
