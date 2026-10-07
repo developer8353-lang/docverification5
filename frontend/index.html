@@ -2283,7 +2283,7 @@
         }
 
         if (doc.fileUrl) {
-          let url = String(doc.fileUrl);
+          const url = String(doc.fileUrl).trim();
 
           if (url.startsWith("http://") || url.startsWith("https://")) {
             return url;
@@ -2297,8 +2297,17 @@
         }
 
         if (doc.filePath) {
-          let filePath = String(doc.filePath);
+          let filePath = String(doc.filePath).trim();
 
+          // Cloudinary URL ko direct open karo
+          if (
+            filePath.startsWith("http://") ||
+            filePath.startsWith("https://")
+          ) {
+            return filePath;
+          }
+
+          // Old local uploads path ke liye
           filePath = filePath.replace(/\\/g, "/");
 
           const uploadsIndex = filePath.toLowerCase().indexOf("uploads/");
