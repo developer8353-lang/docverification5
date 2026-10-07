@@ -1,4 +1,6 @@
 const Document = require("../models/Document");
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
 
 const generateVerificationId = () => {
   const randomPart = Math.random()
@@ -25,13 +27,8 @@ const uploadDocument = async (req, res) => {
 
     console.log("========== UPLOAD DEBUG ==========");
     console.log("BODY:", req.body);
-    console.log(
-      "ISSUING ORGANIZATION:",
-      issuingOrganization
-    );
     console.log("FILE:", req.file);
     console.log("===================================");
-
 
     if (!ownerName || !documentType) {
       return res.status(400).json({
@@ -40,10 +37,63 @@ const uploadDocument = async (req, res) => {
       });
     }
 
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Document file is required",
+      });
+    }
+
+
+    // ==========================================
+    // UPLOAD FILE TO CLOUDINARY
+    // ==========================================
+
+    let cloudinaryResult;
+
+    try {
+      cloudinaryResult = await cloudinary.uploader.upload(
+        req.file.path,
+        {
+          folder: "docverify",
+          resource_type: "auto",
+        }
+      );
+    } catch (cloudinaryError) {
+      console.error(
+        "CLOUDINARY UPLOAD ERROR:",
+        cloudinaryError
+      );
+
+      return res.status(500).json({
+        success: false,
+        message: "Failed to upload document to Cloudinary",
+      });
+    }
+
+
+    // ==========================================
+    // DELETE LOCAL FILE
+    // ==========================================
+
+    try {
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+    } catch (deleteError) {
+      console.error(
+        "LOCAL FILE DELETE ERROR:",
+        deleteError
+      );
+    }
+
+
+    // ==========================================
+    // GENERATE UNIQUE VERIFICATION ID
+    // ==========================================
 
     let verificationId;
 
-    // Generate unique Verification ID
     while (true) {
       verificationId = generateVerificationId();
 
@@ -51,9 +101,15 @@ const uploadDocument = async (req, res) => {
         verificationId,
       });
 
-      if (!existing) break;
+      if (!existing) {
+        break;
+      }
     }
 
+
+    // ==========================================
+    // SAVE DOCUMENT IN MONGODB
+    // ==========================================
 
     const document = await Document.create({
       verificationId,
@@ -62,30 +118,40 @@ const uploadDocument = async (req, res) => {
 
       documentType,
 
-      // IMPORTANT
-      issuingOrganization: issuingOrganization || "",
+      issuingOrganization:
+        issuingOrganization || "",
 
-      issueDate: issueDate || "",
+      issueDate:
+        issueDate || "",
 
-      status: status || "Verified",
+      status:
+        status || "Verified",
 
-      fileName: req.file
-        ? req.file.originalname
-        : "",
+      fileName:
+        req.file.originalname,
 
-      filePath: req.file
-        ? req.file.path
-        : "",
+      filePath:
+        cloudinaryResult.secure_url,
 
-      uploadedBy: req.user._id,
+      uploadedBy:
+        req.user._id,
     });
 
 
     console.log(
-      "SAVED ORGANIZATION:",
-      document.issuingOrganization
+      "CLOUDINARY URL:",
+      cloudinaryResult.secure_url
     );
 
+    console.log(
+      "SAVED DOCUMENT:",
+      document
+    );
+
+
+    // ==========================================
+    // RESPONSE
+    // ==========================================
 
     res.status(201).json({
       success: true,
@@ -95,7 +161,10 @@ const uploadDocument = async (req, res) => {
 
   } catch (error) {
 
-    console.error("UPLOAD ERROR:", error);
+    console.error(
+      "UPLOAD ERROR:",
+      error
+    );
 
     res.status(500).json({
       success: false,
